@@ -50,6 +50,9 @@ void updateLEDValue()
 {
   if(Serial.available() > 0)
   {
+    // read flag
+    Serial.read();
+
     float newValue = (float)(Serial.read());
     if(newValue > ledValue)
       ledValue = newValue; 

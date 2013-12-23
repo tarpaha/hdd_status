@@ -23,7 +23,7 @@ namespace hdd_status
 
         public void Send(float value)
         {
-            _serialPort.Write(new byte[] { (byte)(value) }, 0, 1);
+            _serialPort.Write(new byte[] { 0, (byte)(value) }, 0, 2);
         }
 
         public void Dispose()
