@@ -7,7 +7,7 @@ namespace hdd_status
 {
     class App : Form
     {
-        private const int USAGE_CHECK_PERIOD = 100;
+        #region creation
 
         private App()
         {
@@ -19,6 +19,13 @@ namespace hdd_status
             _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
             _timer.Start();
         }
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region Form
 
         protected override void OnLoad(EventArgs e)
         {
@@ -39,8 +46,16 @@ namespace hdd_status
 
                 _timer.Dispose();
             }
+
             base.Dispose(disposing);
         }
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region events
 
         private void OnTick()
         {
@@ -57,11 +72,32 @@ namespace hdd_status
             Application.Exit();
         }
 
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region main
+
         [STAThread]
         public static void Main()
         {
             Application.Run(new App());
         }
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region constants
+
+        private const int USAGE_CHECK_PERIOD = 100;
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
 
         #region data
 
