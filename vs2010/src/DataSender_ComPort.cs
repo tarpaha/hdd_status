@@ -39,7 +39,7 @@ namespace hdd_status
         /////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////
 
-        #region private data
+        #region data
 
         private readonly string _comPortName;
         private SerialPort _serialPort;

@@ -90,7 +90,7 @@ namespace hdd_status
             Application.Run(new App());
         }
 
-        #region private data
+        #region data
 
         private IDataCollector _collector;
         private IDataSender _sender;
