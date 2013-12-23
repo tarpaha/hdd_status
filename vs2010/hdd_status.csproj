@@ -40,10 +40,10 @@
     <Compile Include="src\App.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\DataCollector_DiskUsage.cs" />
+    <Compile Include="src\Collectors\DataCollector_DiskUsage.cs" />
     <Compile Include="src\Senders\DataSender_ComPort.cs" />
     <Compile Include="src\Senders\DataSender_Console.cs" />
-    <Compile Include="src\IDataCollector.cs" />
+    <Compile Include="src\Collectors\IDataCollector.cs" />
     <Compile Include="src\Senders\IDataSender.cs" />
   </ItemGroup>
   <ItemGroup>
