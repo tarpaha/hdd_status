@@ -14,7 +14,7 @@ namespace hdd_status
             _collector = new DataCollector_DiskUsage();
             _sender = new DataSender_Console(); //new DataSender_ComPort(3);
 
-            _trayIcon = new TrayIcon(OnExit);
+            _trayIcon = new TrayIcon(OnClick, OnExit);
 
             _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
             _timer.Start();
@@ -45,6 +45,11 @@ namespace hdd_status
         private void OnTick()
         {
             _sender.Send(_collector.Collect());
+        }
+
+        private void OnClick()
+        {
+            System.Console.WriteLine("click");
         }
 
         private void OnExit()

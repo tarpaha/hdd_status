@@ -6,7 +6,7 @@ namespace hdd_status
 {
     class TrayIcon : IDisposable
     {
-        public TrayIcon(Action onExit)
+        public TrayIcon(Action onClick, Action onExit)
         {
             ContextMenu trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add(
@@ -21,6 +21,11 @@ namespace hdd_status
             _trayIcon.Icon = new Icon(GetType(), "app.ico");
             _trayIcon.ContextMenu = trayMenu;
             _trayIcon.Visible = true;
+            _trayIcon.Click +=
+                (object sender, EventArgs args) =>
+                {
+                    onClick();
+                };
         }
 
         public void Dispose()
