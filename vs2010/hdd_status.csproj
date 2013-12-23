@@ -8,8 +8,8 @@
     <ProjectGuid>{6088866E-C170-4BF4-BAD2-91BE4D43AF9E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cs_hdd_status</RootNamespace>
-    <AssemblyName>cs_hdd_status</AssemblyName>
+    <RootNamespace>hdd_status</RootNamespace>
+    <AssemblyName>hdd_status</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,9 @@
     <Compile Include="src\App.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\DataSender_ComPort.cs" />
+    <Compile Include="src\DataSender_Console.cs" />
+    <Compile Include="src\IDataSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

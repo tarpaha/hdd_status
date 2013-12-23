@@ -2,16 +2,14 @@
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.IO.Ports;
 
-namespace cs_hdd_status
+namespace hdd_status
 {
     class App : Form
     {
         private const int USAGE_CHECK_PERIOD = 100; // ms
 
         private readonly PerformanceCounter m_diskUsage;
-        private readonly SerialPort m_serialPort;
         private readonly System.Timers.Timer m_timer;
 
         private readonly NotifyIcon m_trayIcon;
@@ -24,8 +22,8 @@ namespace cs_hdd_status
             m_diskUsage = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
             m_value = 0.0f;
 
-            m_serialPort = new SerialPort("COM3");
-            m_serialPort.Open();
+            _sender = new DataSender_Console(); //new DataSender_ComPort(3);
+            _sender.Create();
 
             m_trayMenu = new ContextMenu();
             m_trayMenu.MenuItems.Add("Exit", OnExit);
@@ -51,8 +49,7 @@ namespace cs_hdd_status
 
         private void SendValue()
         {
-            // send value to serail port
-            m_serialPort.Write(new byte[] { (byte)(m_value) }, 0, 1);
+            _sender.Send(m_value);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -67,7 +64,7 @@ namespace cs_hdd_status
         {
             if (disposing)
             {
-                m_serialPort.Close();
+                _sender.Destroy();
                 m_trayIcon.Dispose();
                 m_timer.Stop();
             }
@@ -90,5 +87,11 @@ namespace cs_hdd_status
         {
             Application.Run(new App());
         }
+
+        #region private data
+
+        private IDataSender _sender;
+
+        #endregion
     }
 }
