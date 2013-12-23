@@ -6,6 +6,8 @@ namespace hdd_status
 {
     class TrayIcon : IDisposable
     {
+        #region creation
+
         public TrayIcon(Action onClick, Action onExit)
         {
             ContextMenu trayMenu = new ContextMenu();
@@ -28,11 +30,27 @@ namespace hdd_status
                 };
         }
 
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region IDisposable
+
         public void Dispose()
         {
             _trayIcon.Dispose();
         }
 
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region data
+
         private readonly NotifyIcon _trayIcon;
+
+        #endregion
     }
 }
