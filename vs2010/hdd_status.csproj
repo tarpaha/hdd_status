@@ -41,6 +41,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Collectors\DataCollector_DiskUsage.cs" />
+    <Compile Include="src\PeriodicTimer.cs" />
     <Compile Include="src\Senders\DataSender_ComPort.cs" />
     <Compile Include="src\Senders\DataSender_Console.cs" />
     <Compile Include="src\Collectors\IDataCollector.cs" />

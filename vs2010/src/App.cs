@@ -9,8 +9,6 @@ namespace hdd_status
     {
         private const int USAGE_CHECK_PERIOD = 100; // ms
 
-        private readonly System.Timers.Timer m_timer;
-
         private readonly NotifyIcon m_trayIcon;
         private readonly ContextMenu m_trayMenu;
         
@@ -32,11 +30,8 @@ namespace hdd_status
             m_trayIcon.ContextMenu = m_trayMenu;
             m_trayIcon.Visible = true;
 
-            m_timer = new System.Timers.Timer();
-            m_timer.Elapsed += new System.Timers.ElapsedEventHandler(Update);
-            m_timer.Interval = USAGE_CHECK_PERIOD;
-            m_timer.AutoReset = true;
-            m_timer.Start();
+            _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
+            _timer.Start();
         }
 
         private void UpdateValue()
@@ -65,12 +60,12 @@ namespace hdd_status
                 _sender.Dispose();
 
                 m_trayIcon.Dispose();
-                m_timer.Stop();
+                _timer.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        private void Update(object sender, System.Timers.ElapsedEventArgs e)
+        private void OnTick()
         {
             UpdateValue();
             SendValue();
@@ -91,6 +86,8 @@ namespace hdd_status
 
         private IDataCollector _collector;
         private IDataSender _sender;
+
+        private PeriodicTimer _timer;
 
         #endregion
     }
