@@ -1,9 +1,9 @@
-﻿namespace hdd_status
+﻿using System;
+
+namespace hdd_status
 {
-    interface IDataSender
+    interface IDataSender : IDisposable
     {
-        void Create();
         void Send(float value);
-        void Destroy();
     }
 }

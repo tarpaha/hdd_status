@@ -1,9 +1,9 @@
-﻿namespace hdd_status
+﻿using System;
+
+namespace hdd_status
 {
-    interface IDataCollector
+    interface IDataCollector : IDisposable
     {
-        void Create();
         float Collect();
-        void Destroy();
     }
 }

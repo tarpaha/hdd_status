@@ -2,9 +2,7 @@
 {
     class DataSender_Console : IDataSender
     {
-        public void Create()
-        {
-        }
+        #region IDataSender
 
         public void Send(float value)
         {
@@ -13,8 +11,10 @@
                 value));
         }
 
-        public void Destroy()
+        public void Dispose()
         {
         }
+
+        #endregion
     }
 }

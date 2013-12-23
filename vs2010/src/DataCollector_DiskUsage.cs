@@ -4,26 +4,37 @@ namespace hdd_status
 {
     class DataCollector_DiskUsage : IDataCollector
     {
-        public void Create()
+        #region creation
+
+        public DataCollector_DiskUsage()
         {
-            m_diskUsage = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
+            _diskUsage = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
         }
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region IDataCollector
 
         public float Collect()
         {
-            return m_diskUsage.NextValue();
+            return _diskUsage.NextValue();
         }
 
-        public void Destroy()
+        public void Dispose()
         {
         }
+
+        #endregion
 
         /////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////
 
         #region data
 
-        private PerformanceCounter m_diskUsage;
+        private PerformanceCounter _diskUsage;
 
         #endregion
     }

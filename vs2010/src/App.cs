@@ -21,10 +21,7 @@ namespace hdd_status
             m_value = 0.0f;
 
             _collector = new DataCollector_DiskUsage();
-            _collector.Create();
-
             _sender = new DataSender_Console(); //new DataSender_ComPort(3);
-            _sender.Create();
 
             m_trayMenu = new ContextMenu();
             m_trayMenu.MenuItems.Add("Exit", OnExit);
@@ -64,8 +61,8 @@ namespace hdd_status
         {
             if (disposing)
             {
-                _collector.Destroy();
-                _sender.Destroy();
+                _collector.Dispose();
+                _sender.Dispose();
 
                 m_trayIcon.Dispose();
                 m_timer.Stop();

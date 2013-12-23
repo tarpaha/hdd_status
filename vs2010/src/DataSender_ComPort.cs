@@ -8,7 +8,10 @@ namespace hdd_status
 
         public DataSender_ComPort(int portNumber)
         {
-            _comPortName = string.Format("COM{0}", portNumber);
+            string portName = string.Format("COM{0}", portNumber);
+
+            _serialPort = new SerialPort(portName);
+            _serialPort.Open();
         }
 
         #endregion
@@ -18,18 +21,12 @@ namespace hdd_status
 
         #region IDataSender
 
-        public void Create()
-        {
-            _serialPort = new SerialPort("COM3");
-            _serialPort.Open();
-        }
-
         public void Send(float value)
         {
             _serialPort.Write(new byte[] { (byte)(value) }, 0, 1);
         }
 
-        public void Destroy()
+        public void Dispose()
         {
             _serialPort.Close();
         }
@@ -41,7 +38,6 @@ namespace hdd_status
 
         #region data
 
-        private readonly string _comPortName;
         private SerialPort _serialPort;
 
         #endregion
