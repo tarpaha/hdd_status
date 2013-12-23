@@ -7,24 +7,14 @@ namespace hdd_status
 {
     class App : Form
     {
-        private const int USAGE_CHECK_PERIOD = 100; // ms
+        private const int USAGE_CHECK_PERIOD = 100;
 
-        private readonly NotifyIcon m_trayIcon;
-        private readonly ContextMenu m_trayMenu;
-        
         private App()
         {
             _collector = new DataCollector_DiskUsage();
             _sender = new DataSender_Console(); //new DataSender_ComPort(3);
 
-            m_trayMenu = new ContextMenu();
-            m_trayMenu.MenuItems.Add("Exit", OnExit);
-
-            m_trayIcon = new NotifyIcon();
-            m_trayIcon.Text = "HDD Status";
-            m_trayIcon.Icon = new Icon(GetType(), "app.ico");
-            m_trayIcon.ContextMenu = m_trayMenu;
-            m_trayIcon.Visible = true;
+            _trayIcon = new TrayIcon(OnExit);
 
             _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
             _timer.Start();
@@ -45,7 +35,8 @@ namespace hdd_status
                 _collector.Dispose();
                 _sender.Dispose();
 
-                m_trayIcon.Dispose();
+                _trayIcon.Dispose();
+
                 _timer.Dispose();
             }
             base.Dispose(disposing);
@@ -56,7 +47,7 @@ namespace hdd_status
             _sender.Send(_collector.Collect());
         }
 
-        private void OnExit(object sender, EventArgs e)
+        private void OnExit()
         {
             Application.Exit();
         }
@@ -73,6 +64,8 @@ namespace hdd_status
         private IDataSender _sender;
 
         private PeriodicTimer _timer;
+
+        private TrayIcon _trayIcon;
 
         #endregion
     }

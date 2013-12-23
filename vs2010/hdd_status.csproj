@@ -46,6 +46,7 @@
     <Compile Include="src\Senders\DataSender_Console.cs" />
     <Compile Include="src\Collectors\IDataCollector.cs" />
     <Compile Include="src\Senders\IDataSender.cs" />
+    <Compile Include="src\TrayIcon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
