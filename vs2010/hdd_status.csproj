@@ -44,7 +44,7 @@
     <Compile Include="src\DataSender_ComPort.cs" />
     <Compile Include="src\DataSender_Console.cs" />
     <Compile Include="src\IDataCollector.cs" />
-    <Compile Include="src\IDataSender.cs" />
+    <Compile Include="src\Senders\IDataSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
