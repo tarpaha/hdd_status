@@ -9,7 +9,6 @@ namespace hdd_status
     {
         private const int USAGE_CHECK_PERIOD = 100; // ms
 
-        private readonly PerformanceCounter m_diskUsage;
         private readonly System.Timers.Timer m_timer;
 
         private readonly NotifyIcon m_trayIcon;
@@ -19,8 +18,10 @@ namespace hdd_status
 
         private App()
         {
-            m_diskUsage = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
             m_value = 0.0f;
+
+            _collector = new DataCollector_DiskUsage();
+            _collector.Create();
 
             _sender = new DataSender_Console(); //new DataSender_ComPort(3);
             _sender.Create();
@@ -43,8 +44,7 @@ namespace hdd_status
 
         private void UpdateValue()
         {
-            // current disk usage value
-            m_value = m_diskUsage.NextValue();
+            m_value = _collector.Collect();
         }
 
         private void SendValue()
@@ -64,7 +64,9 @@ namespace hdd_status
         {
             if (disposing)
             {
+                _collector.Destroy();
                 _sender.Destroy();
+
                 m_trayIcon.Dispose();
                 m_timer.Stop();
             }
@@ -90,6 +92,7 @@ namespace hdd_status
 
         #region private data
 
+        private IDataCollector _collector;
         private IDataSender _sender;
 
         #endregion
