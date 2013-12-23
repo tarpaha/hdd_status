@@ -12,12 +12,8 @@ namespace hdd_status
         private readonly NotifyIcon m_trayIcon;
         private readonly ContextMenu m_trayMenu;
         
-        private float m_value;
-
         private App()
         {
-            m_value = 0.0f;
-
             _collector = new DataCollector_DiskUsage();
             _sender = new DataSender_Console(); //new DataSender_ComPort(3);
 
@@ -32,16 +28,6 @@ namespace hdd_status
 
             _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
             _timer.Start();
-        }
-
-        private void UpdateValue()
-        {
-            m_value = _collector.Collect();
-        }
-
-        private void SendValue()
-        {
-            _sender.Send(m_value);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -67,8 +53,7 @@ namespace hdd_status
 
         private void OnTick()
         {
-            UpdateValue();
-            SendValue();
+            _sender.Send(_collector.Collect());
         }
 
         private void OnExit(object sender, EventArgs e)
