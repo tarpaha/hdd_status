@@ -60,13 +60,23 @@ namespace hdd_status
         private void OnTick()
         {
             float value = _collector.Collect();
-            value *= PERCENT_TO_BYTE;
-            _sender.Send((byte)value);
+            byte byteValue = (byte)(value * PERCENT_TO_BYTE);
+
+            if (_flag)
+            {
+                byteValue |= 1;
+            }
+            else
+            {
+                byteValue &= 0xFE;
+            }
+
+            _sender.Send(byteValue);
         }
 
         private void OnClick()
         {
-            System.Console.WriteLine("click");
+            _flag = !_flag;
         }
 
         private void OnExit()
@@ -110,6 +120,8 @@ namespace hdd_status
         private PeriodicTimer _timer;
 
         private TrayIcon _trayIcon;
+
+        private bool _flag;
 
         #endregion
     }
