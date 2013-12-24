@@ -1,79 +1,47 @@
 // consts
-int LED_PIN_01 = 6;
-int LED_PIN_02 = 9;
-float ledFallSpeed = 200.0f;
+#define LED_PIN 6
+#define SERIAL_SPEED 9600
+#define SHIFT 8
+#define DECREMENT 1
 
-// this value constantly changes
-float ledValue = 0.0f;
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-// time related
-unsigned long prevFrameTime;
-float dt = 0.0;
+int value = 0;
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+void updateValue()
+{
+    if(value > 0)
+    {
+        value -= DECREMENT;
+    }
+}
+
+void updateLED()
+{
+    analogWrite(LED_PIN, value >> SHIFT);
+}
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+void serialEvent()
+{
+    value = Serial.read() << SHIFT;
+}
 
 void setup()
 {
-  // setup LED
-  pinMode(LED_PIN_01, OUTPUT);
-  pinMode(LED_PIN_02, OUTPUT);
-
-  // setup COM
-  Serial.begin(9600);
-
-  // intial value
-  prevFrameTime = millis();
-}
-
-// calcs dt = time in seconds (float) from previous frame
-void calcFrameTime()
-{
-  unsigned long currentFrameTime = millis();
-  prevFrameTime = currentFrameTime - prevFrameTime;
-  if(prevFrameTime < 0)
-    prevFrameTime = currentFrameTime = 0;
-
-  dt = 0.001f * prevFrameTime;
-  prevFrameTime = currentFrameTime;
-}
-
-// reduces LED value over time
-void calcLEDValue()
-{
-  if(ledValue > 0)
-  {
-    ledValue -= ledFallSpeed * dt;
-    if(ledValue < 0)
-      ledValue = 0;
-  }
-}
-
-void updateLEDValue()
-{
-  if(Serial.available() > 0)
-  {
-    // read flag
-    Serial.read();
-
-    float newValue = (float)(Serial.read());
-    if(newValue > ledValue)
-      ledValue = newValue; 
-  }
-}
-
-void setLEDValue()
-{
-  int pinValue = (int)(255.0 * ledValue / 100.0f);
-  analogWrite(LED_PIN_01, pinValue);
-  analogWrite(LED_PIN_02, pinValue);
+    pinMode(LED_PIN, OUTPUT);
+    Serial.begin(SERIAL_SPEED);
 }
 
 void loop()
 {
-  updateLEDValue();
-
-  calcFrameTime();
-  calcLEDValue();
-
-  setLEDValue();
+    updateValue();
+    updateLED();
 }
-
 
