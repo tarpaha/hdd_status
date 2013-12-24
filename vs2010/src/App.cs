@@ -12,7 +12,7 @@ namespace hdd_status
         private App()
         {
             _collector = new DataCollector_DiskUsage();
-            _sender = new DataSender_Console(); //new DataSender_ComPort(3);
+            _sender = new DataSender_ComPort(3);
 
             _trayIcon = new TrayIcon(OnClick, OnExit);
 
