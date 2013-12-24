@@ -20,7 +20,8 @@ namespace hdd_status
 
         public float Collect()
         {
-            return _diskUsage.NextValue();
+            float value = _diskUsage.NextValue();
+            return value < 100.0f ? value: 100.0f;
         }
 
         public void Dispose()

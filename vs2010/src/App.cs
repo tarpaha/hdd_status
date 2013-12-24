@@ -59,7 +59,9 @@ namespace hdd_status
 
         private void OnTick()
         {
-            _sender.Send(_collector.Collect());
+            float value = _collector.Collect();
+            value *= PERCENT_TO_BYTE;
+            _sender.Send((byte)value);
         }
 
         private void OnClick()
@@ -93,6 +95,7 @@ namespace hdd_status
         #region constants
 
         private const int USAGE_CHECK_PERIOD = 100;
+        private const float PERCENT_TO_BYTE = 255.0f / 100.0f;
 
         #endregion
 

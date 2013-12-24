@@ -4,6 +4,6 @@ namespace hdd_status
 {
     interface IDataSender : IDisposable
     {
-        void Send(float value);
+        void Send(byte value);
     }
 }

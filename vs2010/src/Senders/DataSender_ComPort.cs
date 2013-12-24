@@ -21,9 +21,9 @@ namespace hdd_status
 
         #region IDataSender
 
-        public void Send(float value)
+        public void Send(byte value)
         {
-            _serialPort.Write(new byte[] { (byte)(value) }, 0, 1);
+            _serialPort.Write(new byte[] { value }, 0, 1);
         }
 
         public void Dispose()

@@ -4,7 +4,7 @@
     {
         #region IDataSender
 
-        public void Send(float value)
+        public void Send(byte value)
         {
             System.Console.WriteLine(string.Format(
                 "sending value = {0}",
