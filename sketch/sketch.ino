@@ -1,7 +1,7 @@
 // consts
 #define LED_PIN 6
 #define SERIAL_SPEED 9600
-#define SHIFT 8
+#define SHIFT 9
 #define DECREMENT 1
 
 ///////////////////////////////////////////////////////////////
