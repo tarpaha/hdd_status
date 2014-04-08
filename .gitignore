@@ -1,3 +1,4 @@
 /vs2010/obj
 /vs2010/bin
 /vs2010/*.suo
+/vs2010/hdd_status.csproj.user
