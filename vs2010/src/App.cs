@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Liensberger;
 
 namespace hdd_status
 {
@@ -33,6 +34,10 @@ namespace hdd_status
             
             Visible = false;
             ShowInTaskbar = false;
+
+            _hook = new KeyboardHook();
+            _hook.KeyPressed += KeyPressed;
+            _hook.RegisterHotKey(KeyboardHook.ModifierKeys.Control | KeyboardHook.ModifierKeys.Alt, Keys.F12);
         }
 
         protected override void Dispose(bool disposing)
@@ -45,6 +50,8 @@ namespace hdd_status
                 _trayIcon.Dispose();
 
                 _timer.Dispose();
+
+                _hook.Dispose();
             }
 
             base.Dispose(disposing);
@@ -76,12 +83,29 @@ namespace hdd_status
 
         private void OnClick()
         {
-            _flag = !_flag;
+            SwitchFlag();
+        }
+
+        private void KeyPressed(object sender, KeyboardHook.KeyPressedEventArgs e)
+        {
+            SwitchFlag();
         }
 
         private void OnExit()
         {
             Application.Exit();
+        }
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region private functions
+
+        private void SwitchFlag()
+        {
+            _flag = !_flag;
         }
 
         #endregion
@@ -122,6 +146,8 @@ namespace hdd_status
         private TrayIcon _trayIcon;
 
         private bool _flag;
+
+        private KeyboardHook _hook;
 
         #endregion
     }
