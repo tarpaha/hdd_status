@@ -11,6 +11,9 @@ namespace hdd_status
         {
             try
             {
+                // System performance counters must contain requested counter and category
+                // In some cases counters are broken, use "lodctr /r" (console under administrator) to restore them
+                // "lodctr /q" can be used to show all counters with their statuses (enabled or disabled)
                 _diskUsage = new PerformanceCounter(COUNTER_NAME, CATEGORY_NAME, INSTANCE_NAME);
             }
             catch (InvalidOperationException)
