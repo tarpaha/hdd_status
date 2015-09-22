@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Liensberger;
 
@@ -8,29 +6,13 @@ namespace hdd_status
 {
     class App : Form
     {
-        #region creation
-
-        private App()
-        {
-            _collector = new DataCollector_DiskUsage();
-            _sender = new DataSender_ComPort(3);
-
-            _trayIcon = new TrayIcon(OnClick, OnExit);
-
-            _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
-            _timer.Start();
-        }
-
-        #endregion
-
-        /////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////
-
         #region Form
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
+            Init();
             
             Visible = false;
             ShowInTaskbar = false;
@@ -44,14 +26,7 @@ namespace hdd_status
         {
             if (disposing)
             {
-                _collector.Dispose();
-                _sender.Dispose();
-
-                _trayIcon.Dispose();
-
-                _timer.Dispose();
-
-                _hook.Dispose();
+                Release();
             }
 
             base.Dispose(disposing);
@@ -102,6 +77,37 @@ namespace hdd_status
         /////////////////////////////////////////////////////////////////
 
         #region private functions
+
+        private void Init()
+        {
+            try
+            {
+                _collector = new DataCollector_DiskUsage();
+                _sender = new DataSender_ComPort(6);
+
+                _trayIcon = new TrayIcon(OnClick, OnExit);
+
+                _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
+                _timer.Start();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                OnExit();
+            }
+        }
+
+        private void Release()
+        {
+            _collector.Dispose();
+            _sender.Dispose();
+
+            _trayIcon.Dispose();
+
+            _timer.Dispose();
+
+            _hook.Dispose();
+        }
 
         private void SwitchFlag()
         {

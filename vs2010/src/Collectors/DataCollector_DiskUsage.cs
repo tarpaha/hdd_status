@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace hdd_status
 {
@@ -8,7 +9,17 @@ namespace hdd_status
 
         public DataCollector_DiskUsage()
         {
-            _diskUsage = new PerformanceCounter("PhysicalDisk", "% Disk Time", "_Total");
+            try
+            {
+                _diskUsage = new PerformanceCounter(COUNTER_NAME, CATEGORY_NAME, INSTANCE_NAME);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new Exception(string.Format(
+                    "There is no counter \"{0}\" or it category \"{1}\" in performance counters",
+                    COUNTER_NAME,
+                    CATEGORY_NAME));
+            }
         }
 
         #endregion
@@ -27,6 +38,17 @@ namespace hdd_status
         public void Dispose()
         {
         }
+
+        #endregion
+
+        /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
+
+        #region consts
+
+        private const string COUNTER_NAME = "PhysicalDisk";
+        private const string CATEGORY_NAME = "% Disk Time";
+        private const string INSTANCE_NAME = "_Total";
 
         #endregion
 
