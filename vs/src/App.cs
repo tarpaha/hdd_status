@@ -13,7 +13,7 @@ namespace hdd_status
             base.OnLoad(e);
 
             Init();
-            
+
             Visible = false;
             ShowInTaskbar = false;
 
@@ -42,7 +42,7 @@ namespace hdd_status
         private void OnTick()
         {
             float value = _collector.Collect();
-            byte byteValue = (byte)(value * PERCENT_TO_BYTE);
+            byte byteValue = (byte)(value * PercentToByte);
 
             if (_flag)
             {
@@ -77,17 +77,17 @@ namespace hdd_status
         /////////////////////////////////////////////////////////////////
 
         #region private functions
-
+        
         private void Init()
         {
             try
             {
                 _collector = new DataCollector_DiskUsage();
-                _sender = new DataSender_ComPort(6);
+                _sender = new DataSender_ComPort(SerialPortUtils.GetSerialPortThatContains(SerialPortCaptionStr));
 
                 _trayIcon = new TrayIcon(OnClick, OnExit);
 
-                _timer = new PeriodicTimer(USAGE_CHECK_PERIOD, OnTick);
+                _timer = new PeriodicTimer(UsageCheckPeriod, OnTick);
                 _timer.Start();
             }
             catch (Exception exception)
@@ -134,8 +134,9 @@ namespace hdd_status
 
         #region constants
 
-        private const int USAGE_CHECK_PERIOD = 100;
-        private const float PERCENT_TO_BYTE = 255.0f / 100.0f;
+        private const string SerialPortCaptionStr = "Arduino";
+        private const int UsageCheckPeriod = 100;
+        private const float PercentToByte = 255.0f / 100.0f;
 
         #endregion
 

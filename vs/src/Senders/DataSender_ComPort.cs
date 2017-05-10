@@ -6,10 +6,8 @@ namespace hdd_status
     {
         #region creation
 
-        public DataSender_ComPort(int portNumber)
+        public DataSender_ComPort(string portName)
         {
-            string portName = string.Format("COM{0}", portNumber);
-
             _serialPort = new SerialPort(portName);
             _serialPort.Open();
         }
@@ -38,7 +36,7 @@ namespace hdd_status
 
         #region data
 
-        private SerialPort _serialPort;
+        private readonly SerialPort _serialPort;
 
         #endregion
     }
