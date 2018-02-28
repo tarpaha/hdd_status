@@ -19,12 +19,18 @@ namespace hdd_status
                 "SELECT * FROM Win32_PnPEntity");
             foreach (var queryObj in searcher.Get())
             {
-                var caption = queryObj["Caption"].ToString();
-                if (caption.Contains("(COM"))
+                if(queryObj != null)
                 {
-                    captions.Add(caption);
+                    var caption = queryObj["Caption"];
+                    if(caption != null)
+                    {
+                        string captionStr = caption.ToString();
+                        if (captionStr.Contains("(COM"))
+                        {
+                            captions.Add(captionStr);
+                        }
+                    }
                 }
-
             }
             return captions;
         }
